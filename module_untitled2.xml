@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_untitled2" default="compile.module.untitled2">
+  <dirname property="module.untitled2.basedir" file="${ant.file.module_untitled2}"/>
+  
+  <property name="module.jdk.home.untitled2" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.untitled2" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.untitled2" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.untitled2" value="-encoding windows-1251 -source 8 ${compiler.args}"/>
+  
+  <property name="untitled2.output.dir" value="${module.untitled2.basedir}/out/production/untitled2"/>
+  <property name="untitled2.testoutput.dir" value="${module.untitled2.basedir}/out/test/untitled2"/>
+  
+  <path id="untitled2.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="untitled2.module.production.classpath">
+    <path refid="${module.jdk.classpath.untitled2}"/>
+  </path>
+  
+  <path id="untitled2.runtime.production.module.classpath">
+    <pathelement location="${untitled2.output.dir}"/>
+  </path>
+  
+  <path id="untitled2.module.classpath">
+    <path refid="${module.jdk.classpath.untitled2}"/>
+    <pathelement location="${untitled2.output.dir}"/>
+  </path>
+  
+  <path id="untitled2.runtime.module.classpath">
+    <pathelement location="${untitled2.testoutput.dir}"/>
+    <pathelement location="${untitled2.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.untitled2">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.untitled2">
+    <patternset refid="excluded.from.module.untitled2"/>
+  </patternset>
+  
+  <path id="untitled2.module.sourcepath">
+    <dirset dir="${module.untitled2.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.untitled2" depends="compile.module.untitled2.production,compile.module.untitled2.tests" description="Compile module untitled2"/>
+  
+  <target name="compile.module.untitled2.production" depends="register.custom.compilers" description="Compile module untitled2; production classes">
+    <mkdir dir="${untitled2.output.dir}"/>
+    <javac2 destdir="${untitled2.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.untitled2}/javac">
+      <compilerarg line="${compiler.args.untitled2}"/>
+      <bootclasspath refid="untitled2.module.bootclasspath"/>
+      <classpath refid="untitled2.module.production.classpath"/>
+      <src refid="untitled2.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.untitled2"/>
+    </javac2>
+    
+    <copy todir="${untitled2.output.dir}">
+      <fileset dir="${module.untitled2.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.untitled2.tests" depends="register.custom.compilers,compile.module.untitled2.production" description="compile module untitled2; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.untitled2" description="cleanup module">
+    <delete dir="${untitled2.output.dir}"/>
+    <delete dir="${untitled2.testoutput.dir}"/>
+  </target>
+</project>
